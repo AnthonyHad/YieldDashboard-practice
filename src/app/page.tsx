@@ -1,3 +1,13 @@
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 import { getDefiLlamaPools } from "@/lib/getDefiLlamaPools";
 
 export default async function HomePage() {
@@ -6,41 +16,54 @@ export default async function HomePage() {
   return (
     <main>
       <h1>Pools List</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Chain</th>
-            <th>Project</th>
-            <th>Symbol</th>
-            <th>TVL (USD)</th>
-            <th>APY Base</th>
-            <th>APY Reward</th>
-            <th>APY</th>
-            <th>Reward Tokens</th>
-            <th>APY Pct 1D</th>
-            <th>APY Pct 7D</th>
-            <th>APY Pct 30D</th>
-          </tr>
-        </thead>
+      <Table>
+        <TableCaption>A list of top pools.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Chain</TableHead>
+            <TableHead>Project</TableHead>
+            <TableHead>Symbol</TableHead>
+            <TableHead>TVL (USD)</TableHead>
+            <TableHead>APY Base</TableHead>
+            <TableHead>APY Reward</TableHead>
+            <TableHead>APY</TableHead>
+            <TableHead>Reward Tokens</TableHead>
+            <TableHead>APY Pct 1D</TableHead>
+            <TableHead>APY Pct 7D</TableHead>
+            <TableHead>APY Pct 30D</TableHead>
+          </TableRow>
+        </TableHeader>
 
-        <tbody>
+        <TableBody>
           {pools.slice(0, 30).map((pool) => (
-            <tr key={pool.project + pool.symbol + pool.chain}>
-              <td>{pool.chain}</td>
-              <td>{pool.project}</td>
-              <td>{pool.symbol}</td>
-              <td>{pool.tvlUsd.toLocaleString()}</td>
-              <td>{pool.apyBase ? pool.apyBase.toFixed(2) : "N/A"}%</td>
-              <td>{pool.apyReward ? pool.apyReward.toFixed(2) : "N/A"}%</td>
-              <td>{pool.apy ? pool.apy.toFixed(2) : "N/A"}%</td>
-              <td>{pool.rewardTokens ? pool.rewardTokens : "N/A"}</td>
-              <td>{pool.apyPct1D ? pool.apyPct1D.toFixed(2) : "N/A"}%</td>
-              <td>{pool.apyPct7D ? pool.apyPct7D.toFixed(2) : "N/A"}%</td>
-              <td>{pool.apyPct30D ? pool.apyPct30D.toFixed(2) : "N/A"}%</td>
-            </tr>
+            <TableRow key={pool.project + pool.symbol + pool.chain}>
+              <TableCell>{pool.chain}</TableCell>
+              <TableCell>{pool.project}</TableCell>
+              <TableCell>{pool.symbol}</TableCell>
+              <TableCell>{pool.tvlUsd.toLocaleString()}</TableCell>
+              <TableCell>
+                {pool.apyBase ? pool.apyBase.toFixed(2) : "N/A"}%
+              </TableCell>
+              <TableCell>
+                {pool.apyReward ? pool.apyReward.toFixed(2) : "N/A"}%
+              </TableCell>
+              <TableCell>{pool.apy ? pool.apy.toFixed(2) : "N/A"}%</TableCell>
+              <TableCell>
+                {pool.rewardTokens ? pool.rewardTokens : "N/A"}
+              </TableCell>
+              <TableCell>
+                {pool.apyPct1D ? pool.apyPct1D.toFixed(2) : "N/A"}%
+              </TableCell>
+              <TableCell>
+                {pool.apyPct7D ? pool.apyPct7D.toFixed(2) : "N/A"}%
+              </TableCell>
+              <TableCell>
+                {pool.apyPct30D ? pool.apyPct30D.toFixed(2) : "N/A"}%
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </main>
   );
 }
