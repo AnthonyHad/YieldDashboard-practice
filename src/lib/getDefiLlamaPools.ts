@@ -36,6 +36,5 @@ export async function getDefiLlamaPools(): Promise<Pool[]> {
     apyPct30D: pool.apyPct30D,
   }));
 
-  console.log(pools);
   return pools;
 }
