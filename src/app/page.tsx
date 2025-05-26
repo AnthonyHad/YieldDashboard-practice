@@ -36,7 +36,7 @@ export default async function HomePage() {
 
         <TableBody>
           {pools.slice(0, 30).map((pool) => (
-            <TableRow key={pool.project + pool.symbol + pool.chain}>
+            <TableRow key={pool.poolId}>
               <TableCell>{pool.chain}</TableCell>
               <TableCell>{pool.project}</TableCell>
               <TableCell>{pool.symbol}</TableCell>
