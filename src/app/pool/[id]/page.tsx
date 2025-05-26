@@ -1,9 +1,17 @@
-export default function PoolPage() {
-  return (
-    <main>
-      <h1>Pool Details</h1>
-      <p>This page will display details for a specific pool.</p>
-      {/* Add your pool details component here */}
-    </main>
-  );
+import PoolDetail from "@/app/components/poolDetail";
+
+import { getDefiLlamaPoolById } from "@/lib/getDefiLlamaPoolById";
+import { getDefiLlamaPoolChart } from "@/lib/getDefiLlamaPoolChart";
+
+export default async function PoolDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const pool = await getDefiLlamaPoolById(params.id);
+  const chartData = await getDefiLlamaPoolChart(params.id);
+
+  if (!pool) return <div>Pool not found</div>;
+
+  return <PoolDetail pool={pool} chartData={chartData} />;
 }
