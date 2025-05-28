@@ -1,4 +1,4 @@
-import PoolDetail from "@/app/components/poolDetail";
+import PoolDetail from "@/components/poolDetail";
 
 import { getDefiLlamaPoolById } from "@/lib/getDefiLlamaPoolById";
 import { getDefiLlamaPoolChart } from "@/lib/getDefiLlamaPoolChart";
