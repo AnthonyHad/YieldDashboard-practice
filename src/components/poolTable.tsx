@@ -114,7 +114,7 @@ export default function PoolTable({ pools }: PoolTableProps) {
               </div>
 
               <div className="col-span-2 flex items-center">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-500 flex items-center justify-center text-white text-xs font-bold mr-3 shadow-md">
+                <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-500 flex items-center justify-center text-white text-xs font-bold mr-3 shadow-md">
                   {pool.symbol.slice(0, 2)}
                 </div>
                 <span className="font-medium text-foreground">
