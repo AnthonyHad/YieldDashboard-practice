@@ -1,6 +1,6 @@
 import { getDefiLlamaPools } from "@/lib/getDefiLlamaPools";
 
-import PoolTable from "@/components/poolTable";
+import PoolTable from "@/components/PoolTable";
 
 export default async function HomePage() {
   const pools = await getDefiLlamaPools();

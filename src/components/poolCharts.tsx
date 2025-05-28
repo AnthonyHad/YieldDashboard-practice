@@ -25,6 +25,8 @@ interface PoolChartProps {
 }
 
 export default function PoolCharts({ data }: PoolChartProps) {
+  console.log("Chart data:", data);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-6">

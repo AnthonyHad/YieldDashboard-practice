@@ -1,5 +1,5 @@
 // src/components/PoolDetail.tsx
-import PoolCharts from "./poolCharts";
+import PoolCharts from "./PoolCharts";
 
 import Link from "next/link";
 
@@ -58,7 +58,7 @@ export default function PoolDetail({ pool, chartData }: PoolDetailProps) {
         </div>
       </div>
       <div className="mt-8">
-        <PoolCharts chartData={chartData} />
+        <PoolCharts data={chartData} />
       </div>
     </div>
   );

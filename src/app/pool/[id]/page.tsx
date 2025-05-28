@@ -1,4 +1,4 @@
-import PoolDetail from "@/components/poolDetail";
+import PoolDetail from "@/components/PoolDetail";
 
 import { getDefiLlamaPoolById } from "@/lib/getDefiLlamaPoolById";
 import { getDefiLlamaPoolChart } from "@/lib/getDefiLlamaPoolChart";
@@ -9,7 +9,13 @@ export default async function PoolDetailPage({
   params: { id: string };
 }) {
   const pool = await getDefiLlamaPoolById(params.id);
-  const chartData = await getDefiLlamaPoolChart(params.id);
+  const apiData = await getDefiLlamaPoolChart(params.id);
+
+  const chartData = apiData.map((point) => ({
+    date: point.timestamp,
+    tvl: point.tvlUsd,
+    apy: point.apy,
+  }));
 
   if (!pool) return <div>Pool not found</div>;
 
