@@ -1,128 +1,134 @@
 "use client";
 
 import {
-  LineChart,
   Line,
+  LineChart,
   XAxis,
   YAxis,
-  Tooltip as RechartsTooltip,
+  CartesianGrid,
   ResponsiveContainer,
-  Legend,
 } from "recharts";
-import dayjs from "dayjs";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
-// Format TVL as $X.Xb or $X.Xm
-const formatTvl = (value: number) => {
-  if (value >= 1e9) return `$${(value / 1e9).toFixed(2)}b`;
-  if (value >= 1e6) return `$${(value / 1e6).toFixed(2)}m`;
-  return `$${value.toLocaleString()}`;
-};
+import { formatDate, formatCurrency } from "@/lib/utils";
 
-const formatApy = (value: number) =>
-  value < 1 ? `${value.toFixed(2)}%` : `${value.toFixed(1)}%`;
+interface PoolChartProps {
+  data: Array<{
+    date: string;
+    tvl: number;
+    apy: number;
+  }>;
+}
 
-export type ChartDatum = {
-  timestamp: string; // Date/time string (ISO format)
-  tvlUsd: number; // Total Value Locked in USD
-  apy: number | null; // Total APY
-  apyBase: number | null; // Base APY
-  apyReward: number | null; // Reward APY (if available)
-  il7d?: number | null; // Impermanent loss 7d (if available)
-  apyBase7d?: number | null; // 7-day avg base APY (if available)
-  // ...add any other fields you encounter
-};
-
-type PoolChartsProps = {
-  chartData: ChartDatum[];
-};
-
-export default function PoolCharts({ chartData }: PoolChartsProps) {
+export default function PoolCharts({ data }: PoolChartProps) {
   return (
-    <div className="w-full bg-[#15151b] rounded-xl shadow-md p-4">
-      <ResponsiveContainer width="100%" height={360}>
-        <LineChart
-          data={chartData}
-          margin={{ left: 24, right: 24, top: 16, bottom: 8 }}
-        >
-          <XAxis
-            dataKey="timestamp"
-            minTickGap={40}
-            tickFormatter={(v) => dayjs(v).format("MMM YY")}
-            stroke="#555"
-          />
-          <YAxis
-            yAxisId="tvl"
-            orientation="left"
-            tickFormatter={formatTvl}
-            stroke="#38bdf8"
-            axisLine={false}
-            tickLine={false}
-            padding={{ top: 8, bottom: 8 }}
-            domain={["dataMin", "dataMax"]}
-          />
-          <YAxis
-            yAxisId="apy"
-            orientation="right"
-            tickFormatter={formatApy}
-            stroke="#f472b6"
-            axisLine={false}
-            tickLine={false}
-            padding={{ top: 8, bottom: 8 }}
-            domain={["dataMin", "dataMax"]}
-          />
-          <RechartsTooltip
-            content={({ active, payload, label }) => {
-              if (!active || !payload) return null;
-              const tvl = payload.find((p) => p.dataKey === "tvlUsd")?.value;
-              const apy = payload.find((p) => p.dataKey === "apy")?.value;
-              return (
-                <div className="bg-[#222232] p-3 rounded shadow text-white text-xs">
-                  <div className="mb-1">
-                    <b>{dayjs(label).format("DD MMM YYYY")}</b>
-                  </div>
-                  <div>TVL: {formatTvl(Number(tvl))}</div>
-                  <div>
-                    APY:{" "}
-                    {apy !== null && apy !== undefined
-                      ? formatApy(Number(apy))
-                      : "N/A"}
-                  </div>
-                </div>
-              );
-            }}
-          />
-          <Legend
-            verticalAlign="top"
-            height={36}
-            iconType="circle"
-            formatter={(val) =>
-              val === "tvlUsd" ? (
-                <span style={{ color: "#38bdf8" }}>TVL</span>
-              ) : (
-                <span style={{ color: "#f472b6" }}>APY</span>
-              )
-            }
-          />
-          <Line
-            yAxisId="tvl"
-            type="monotone"
-            dataKey="tvlUsd"
-            stroke="#38bdf8"
-            strokeWidth={2}
-            dot={false}
-            isAnimationActive={false}
-          />
-          <Line
-            yAxisId="apy"
-            type="monotone"
-            dataKey="apy"
-            stroke="#f472b6"
-            strokeWidth={2}
-            dot={false}
-            isAnimationActive={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className="space-y-4">
+      <div className="flex items-center gap-6">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-blue-500 dark:bg-blue-400"></div>
+          <span className="text-sm font-medium text-foreground">TVL</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-purple-500 dark:bg-purple-400"></div>
+          <span className="text-sm font-medium text-foreground">APY</span>
+        </div>
+      </div>
+
+      <ChartContainer
+        config={{
+          tvl: {
+            label: "TVL",
+            color: "hsl(217 91% 60%)", // Blue for both modes
+          },
+          apy: {
+            label: "APY",
+            color: "hsl(271 81% 56%)", // Purple for both modes
+          },
+        }}
+        className="h-[400px] w-full"
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={data}
+            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+          >
+            <CartesianGrid
+              strokeDasharray="3 3"
+              className="stroke-muted dark:stroke-gray-700"
+              opacity={0.3}
+            />
+            <XAxis
+              dataKey="date"
+              tickFormatter={formatDate}
+              className="text-xs"
+              stroke="hsl(var(--muted-foreground))"
+              fontSize={12}
+            />
+            <YAxis
+              yAxisId="tvl"
+              orientation="left"
+              tickFormatter={formatCurrency}
+              className="text-xs"
+              stroke="hsl(var(--muted-foreground))"
+              fontSize={12}
+            />
+            <YAxis
+              yAxisId="apy"
+              orientation="right"
+              tickFormatter={(value) => `${value.toFixed(1)}%`}
+              className="text-xs"
+              stroke="hsl(var(--muted-foreground))"
+              fontSize={12}
+            />
+            <ChartTooltip
+              content={
+                <ChartTooltipContent className="dark:bg-gray-800 dark:border-gray-700" />
+              }
+              labelFormatter={(value) => formatDate(value)}
+              formatter={(value, name) => [
+                name === "tvl"
+                  ? formatCurrency(value as number)
+                  : `${(value as number).toFixed(2)}%`,
+                name === "tvl" ? "TVL" : "APY",
+              ]}
+            />
+            <Line
+              yAxisId="tvl"
+              type="monotone"
+              dataKey="tvl"
+              stroke="#3b82f6"
+              strokeWidth={3}
+              dot={false}
+              activeDot={{
+                r: 6,
+                stroke: "#3b82f6",
+                strokeWidth: 2,
+                fill: "#3b82f6",
+                className: "drop-shadow-lg",
+              }}
+            />
+            <Line
+              yAxisId="apy"
+              type="monotone"
+              dataKey="apy"
+              stroke="#a855f7"
+              strokeWidth={3}
+              dot={false}
+              activeDot={{
+                r: 6,
+                stroke: "#a855f7",
+                strokeWidth: 2,
+                fill: "#a855f7",
+                className: "drop-shadow-lg",
+              }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </ChartContainer>
     </div>
   );
 }
