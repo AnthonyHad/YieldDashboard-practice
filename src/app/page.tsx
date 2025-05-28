@@ -7,7 +7,9 @@ export default async function HomePage() {
 
   return (
     <main>
-      <PoolTable pools={pools.slice(0, 50)} />
+      <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm">
+        <PoolTable pools={pools.slice(0, 50)} />
+      </div>
     </main>
   );
 }

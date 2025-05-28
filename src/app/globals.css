@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 
 /* Variant for next-themes dark mode compatibility */
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark &) &:is(.dark *));
 
 /* =============================
    🌈 Design Tokens (Tailwind v4)
@@ -51,6 +51,26 @@
       height: 0;
     }
   }
+
+  @keyframes hueShift {
+    0% {
+      filter: hue-rotate(0deg);
+    }
+    50% {
+      filter: hue-rotate(20deg);
+    }
+    100% {
+      filter: hue-rotate(0deg);
+    }
+
+    /* 💡 Replace above with brightness for pulse:
+    0%, 100% {
+      filter: brightness(100%);
+    }
+    50% {
+      filter: brightness(110%);
+    } */
+  }
 }
 
 /* =============================
@@ -84,8 +104,15 @@
    🌚 Dark Theme (.dark)
    ============================= */
 .dark {
-  --background: oklch(0.147 0.004 49.25);
+  --background: oklch(0.18 0.02 265);
   --foreground: oklch(0.985 0.001 106.423);
+  --background-gradient: linear-gradient(
+    180deg,
+    oklch(0.18 0.02 265),
+    /* deep blue base */ oklch(0.22 0.04 295),
+    /* violet-purple */ oklch(0.1 0.03 265),
+    /* dark blue dip */ oklch(0.18 0.025 270) /* blue-violet again */
+  );
   --card: oklch(0.216 0.006 56.043);
   --card-foreground: oklch(0.985 0.001 106.423);
   --popover: oklch(0.216 0.006 56.043);
@@ -109,13 +136,38 @@
    🌐 Base Styling
    ============================= */
 @layer base {
+  html,
+  body {
+    @apply text-foreground font-sans antialiased;
+  }
+
   * {
     @apply border-border outline-ring/50;
     transition: background-color 0.3s ease, border-color 0.3s ease,
       color 0.3s ease;
   }
+
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    position: relative;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    z-index: 0;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--background-gradient);
+    background-size: 400% 400%;
+    animation: hueShift 15s ease-in-out infinite;
+  }
+
+  ::selection {
+    @apply bg-primary text-primary-foreground;
   }
 }
 
