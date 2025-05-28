@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+
+import { ThemeProvider } from "next-themes";
+
+import ThemeToggle from "@/components/ThemeToggle";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -25,14 +30,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <>
-          <DashboardHeader />
-          {children}
-        </>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <div className="min-h-screen bg-background text-foreground">
+            <div className="container mx-auto py-8 px-4 space-y-8">
+              <div className="flex justify-end mb-4">
+                <ThemeToggle />
+              </div>
+              <DashboardHeader />
+              {children}
+            </div>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
