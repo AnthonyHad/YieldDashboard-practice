@@ -1,5 +1,6 @@
 // src/components/PoolDetail.tsx
 import PoolCharts from "./poolCharts";
+
 import Link from "next/link";
 
 import type { Pool } from "@/lib/getDefiLlamaPools";
