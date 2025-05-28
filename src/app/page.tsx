@@ -7,7 +7,6 @@ export default async function HomePage() {
 
   return (
     <main>
-      <h1>DeFi Yield Dashboard</h1>
       <PoolTable pools={pools.slice(0, 50)} />
     </main>
   );
