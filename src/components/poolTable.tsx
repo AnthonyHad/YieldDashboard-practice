@@ -56,16 +56,20 @@ const getPoolDetails = (pool: Pool): PoolDetails => ({
 const getChainColor = (chain: string) => {
   const colors = {
     Ethereum:
-      "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800",
+      "bg-blue-200 text-blue-900 border-blue-300 dark:bg-blue-800 dark:text-blue-100 dark:border-blue-700",
     Solana:
-      "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200 dark:border-purple-800",
-    Tron: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800",
+      "bg-purple-200 text-purple-900 border-purple-300 dark:bg-purple-800 dark:text-purple-100 dark:border-purple-700",
+    Tron: "bg-red-200 text-red-900 border-red-300 dark:bg-red-800 dark:text-red-100 dark:border-red-700",
     Polygon:
-      "bg-violet-100 text-violet-800 dark:bg-violet-900/30 dark:text-violet-400 border-violet-200 dark:border-violet-800",
+      "bg-violet-200 text-violet-900 border-violet-300 dark:bg-violet-800 dark:text-violet-100 dark:border-violet-700",
+    Base: "bg-sky-200 text-sky-900 border-sky-300 dark:bg-sky-800 dark:text-sky-100 dark:border-sky-700",
+    Avalanche:
+      "bg-rose-200 text-rose-900 border-rose-300 dark:bg-rose-800 dark:text-rose-100 dark:border-rose-700",
+    BSC: "bg-amber-200 text-amber-900 border-amber-300 dark:bg-amber-700 dark:text-amber-100 dark:border-amber-800", // BSC = Binance Smart Chain
   };
   return (
     colors[chain as keyof typeof colors] ||
-    "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400 border-gray-200 dark:border-gray-800"
+    "bg-gray-200 text-gray-900 border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700"
   );
 };
 

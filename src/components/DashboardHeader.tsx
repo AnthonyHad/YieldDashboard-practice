@@ -1,6 +1,5 @@
-import { Search, Filter, Download, Activity } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Activity } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 
 export default function DashboardHeader() {
@@ -30,32 +29,6 @@ export default function DashboardHeader() {
             Live Data
           </Badge>
         </div>
-      </div>
-
-      <div className="flex items-center gap-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search pools, projects, or tokens..."
-            className="pl-10 bg-background border-border dark:bg-gray-900/50 dark:border-gray-800"
-          />
-        </div>
-        <Button
-          variant="outline"
-          size="sm"
-          className="dark:border-gray-800 dark:hover:bg-gray-800"
-        >
-          <Filter className="mr-2 h-4 w-4" />
-          Filter
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          className="dark:border-gray-800 dark:hover:bg-gray-800"
-        >
-          <Download className="mr-2 h-4 w-4" />
-          Export
-        </Button>
       </div>
     </div>
   );
