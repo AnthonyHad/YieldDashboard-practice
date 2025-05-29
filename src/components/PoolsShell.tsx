@@ -26,12 +26,8 @@ export default function PoolsShell({ pools }: PoolShellProps) {
     <div>
       {/* Toolbar */}
       <div
-        className="
-       flex flex-col md:flex-row md:items-center justify-between
-    gap-3 mb-4 px-0
-    rounded-t-lg shadow-sm
-    w-full
-      "
+        className=" flex flex-col md:flex-row md:items-center justify-between
+    gap-3 mb-4 px-0 w-full"
       >
         {/* Search Left */}
         <div className="flex-1 md:max-w-md">

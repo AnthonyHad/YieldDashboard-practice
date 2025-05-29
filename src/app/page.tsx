@@ -7,7 +7,7 @@ export default async function HomePage() {
 
   return (
     <main>
-      <div className="rounded-xl  bg-card text-card-foreground shadow-sm">
+      <div className="rounded-xl  bg-card text-card-foreground">
         <PoolsShell pools={pools.slice(0, 70)} />
       </div>
     </main>
