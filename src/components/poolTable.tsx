@@ -112,7 +112,9 @@ export default function PoolTable({ pools }: PoolTableProps) {
           <div className="col-span-2">Chain</div>
           <div className="col-span-2">TVL</div>
           <div className="col-span-2">APY</div>
-          <div className="col-span-1">Trend</div>
+          <div className="col-span-1 whitespace-normal break-words">
+            30D Trend
+          </div>
         </div>
 
         {pools.map((pool) => (
@@ -193,7 +195,7 @@ export default function PoolTable({ pools }: PoolTableProps) {
               </div>
 
               <div className="col-span-1 flex items-center">
-                {pool.apyPct1D > 0 ? (
+                {pool.apyPct30D > 0 ? (
                   <TrendingUp className="h-4 w-4 text-green-500" />
                 ) : (
                   <TrendingDown className="h-4 w-4 text-red-500" />
