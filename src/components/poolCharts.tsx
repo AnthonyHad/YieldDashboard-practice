@@ -1,3 +1,4 @@
+// components/PoolCharts.tsx
 "use client";
 
 import {
@@ -13,84 +14,106 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
 import { formatDate, formatCurrency } from "@/lib/utils";
+import { useMemo } from "react";
 
 interface PoolChartProps {
   data: Array<{
-    date: string;
+    date: string; // ISO "YYYY-MM-DD"
     tvl: number;
     apy: number;
   }>;
 }
 
 export default function PoolCharts({ data }: PoolChartProps) {
-  console.log("Chart data:", data);
+  // 1) Keep one point per week (e.g. every 7th day)
+  const weeklyData = useMemo(() => data.filter((_, i) => i % 7 === 0), [data]);
+
+  // 2) Pick the first weekly sample of each calendar month
+  const monthTicks = useMemo(() => {
+    const seen = new Set<string>();
+    const ticks: string[] = [];
+    for (const { date } of weeklyData) {
+      const [year, month] = date.split("-");
+      const key = `${year}-${month}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        ticks.push(date);
+      }
+    }
+    return ticks;
+  }, [weeklyData]);
+
+  // 3) Formatter to display "Mon YYYY"
+  const monthFormatter = (isoDate: string) =>
+    new Date(isoDate).toLocaleDateString(undefined, {
+      month: "short",
+      year: "numeric",
+    });
 
   return (
     <div className="space-y-4">
+      {/* Legend */}
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-blue-500 dark:bg-blue-400"></div>
+          <div className="w-3 h-3 rounded-full bg-blue-500 dark:bg-blue-400" />
           <span className="text-sm font-medium text-foreground">TVL</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-purple-500 dark:bg-purple-400"></div>
+          <div className="w-3 h-3 rounded-full bg-purple-500 dark:bg-purple-400" />
           <span className="text-sm font-medium text-foreground">APY</span>
         </div>
       </div>
 
       <ChartContainer
         config={{
-          tvl: {
-            label: "TVL",
-            color: "hsl(217 91% 60%)", // Blue for both modes
-          },
-          apy: {
-            label: "APY",
-            color: "hsl(271 81% 56%)", // Purple for both modes
-          },
+          tvl: { label: "TVL", color: "hsl(217 91% 60%)" },
+          apy: { label: "APY", color: "hsl(271 81% 56%)" },
         }}
         className="h-[400px] w-full"
       >
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            data={data}
-            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+            data={weeklyData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
           >
             <CartesianGrid
               strokeDasharray="3 3"
               className="stroke-muted dark:stroke-gray-700"
               opacity={0.3}
             />
+
             <XAxis
               dataKey="date"
-              tickFormatter={formatDate}
+              ticks={monthTicks}
+              tickFormatter={monthFormatter}
+              interval={0}
+              angle={-35}
+              textAnchor="end"
               className="text-xs"
-              stroke="hsl(var(--muted-foreground))"
               fontSize={12}
             />
+
             <YAxis
               yAxisId="tvl"
               orientation="left"
               tickFormatter={formatCurrency}
               className="text-xs"
-              stroke="hsl(var(--muted-foreground))"
               fontSize={12}
             />
             <YAxis
               yAxisId="apy"
               orientation="right"
-              tickFormatter={(value) => `${value.toFixed(1)}%`}
+              tickFormatter={(v) => `${v.toFixed(1)}%`}
               className="text-xs"
-              stroke="hsl(var(--muted-foreground))"
               fontSize={12}
             />
+
             <ChartTooltip
               content={
                 <ChartTooltipContent className="dark:bg-gray-800 dark:border-gray-700" />
               }
-              labelFormatter={(value) => formatDate(value)}
+              labelFormatter={(v) => formatDate(v)}
               formatter={(value, name) => [
                 name === "tvl"
                   ? formatCurrency(value as number)
@@ -98,6 +121,7 @@ export default function PoolCharts({ data }: PoolChartProps) {
                 name === "tvl" ? " TVL" : " APY",
               ]}
             />
+
             <Line
               yAxisId="tvl"
               type="monotone"
