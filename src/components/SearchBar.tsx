@@ -29,3 +29,5 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     </div>
   );
 }
+
+// Having state here is only important for debouncing purposes otherwise we can let the parent manage the state.

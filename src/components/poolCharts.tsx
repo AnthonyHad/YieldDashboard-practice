@@ -95,7 +95,7 @@ export default function PoolCharts({ data }: PoolChartProps) {
                 name === "tvl"
                   ? formatCurrency(value as number)
                   : `${(value as number).toFixed(2)}%`,
-                name === "tvl" ? "TVL" : "APY",
+                name === "tvl" ? " TVL" : " APY",
               ]}
             />
             <Line
