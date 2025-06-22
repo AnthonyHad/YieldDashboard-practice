@@ -8,6 +8,8 @@ import { FilterPopover } from "@/components/FilterPopover";
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { exportToCSV } from "@/lib/utils";
+
 import type { Pool } from "@/lib/getDefiLlamaPools";
 
 type PoolShellProps = { pools: Pool[] };
@@ -89,8 +91,12 @@ export default function PoolsShell({ pools }: PoolShellProps) {
             setSelectedProject={setSelectedProject}
             resetFilters={resetFilters}
           />
-          <Button variant="outline" size="sm">
-            <Download className="mr-2 h-4 w-4" />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => exportToCSV(filtered)}
+          >
+            <Download className="mr-2 h-4 w-4 " />
             <span className="hidden sm:inline">Export</span>
           </Button>
         </div>
