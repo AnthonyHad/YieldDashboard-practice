@@ -4,7 +4,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import SearchBar from "@/components/SearchBar";
 import PoolTable from "@/components/PoolTable";
-import { Filter, Download } from "lucide-react";
+import { FilterPopover } from "@/components/FilterPopover";
+import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import type { Pool } from "@/lib/getDefiLlamaPools";
@@ -13,21 +14,42 @@ type PoolShellProps = { pools: Pool[] };
 
 export default function PoolsShell({ pools }: PoolShellProps) {
   const [search, setSearch] = useState("");
+  const [selectedChain, setSelectedChain] = useState<string>("All");
+  const [selectedProject, setSelectedProject] = useState<string>("All");
+
   // how many items are we currently showing?
   const [limit, setLimit] = useState(10);
   const loader = useRef<HTMLDivElement>(null);
 
+  const uniqueChains = Array.from(
+    new Set(pools.map((pool) => pool.chain))
+  ).sort();
+  const uniqueProjects = Array.from(
+    new Set(pools.map((pool) => pool.project))
+  ).sort();
+
+  function resetFilters() {
+    setSelectedChain("All");
+    setSelectedProject("All");
+  }
+
   // 1) Filter first, then slice
-  const filtered = pools.filter((p) =>
-    [p.symbol, p.project, p.chain].some((field) =>
+  const filtered = pools.filter((p) => {
+    const matchesSearch = [p.symbol, p.project, p.chain].some((field) =>
       field.toLowerCase().includes(search.toLowerCase())
-    )
-  );
+    );
+
+    const matchesChain = selectedChain === "All" || p.chain === selectedChain;
+    const matchesProject =
+      selectedProject === "All" || p.project === selectedProject;
+
+    return matchesSearch && matchesChain && matchesProject;
+  });
   const visiblePools = filtered.slice(0, limit);
 
   // 2) Whenever we change search, reset limit
   useEffect(() => {
-    setLimit(10);
+    setLimit(20);
   }, [search]);
 
   // 3) When the "loader" div enters viewport, bump the limit
@@ -58,10 +80,15 @@ export default function PoolsShell({ pools }: PoolShellProps) {
           <SearchBar onSearch={setSearch} />
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <Filter className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">Filter</span>
-          </Button>
+          <FilterPopover
+            uniqueChains={uniqueChains}
+            selectedChain={selectedChain}
+            setSelectedChain={setSelectedChain}
+            uniqueProjects={uniqueProjects}
+            selectedProject={selectedProject}
+            setSelectedProject={setSelectedProject}
+            resetFilters={resetFilters}
+          />
           <Button variant="outline" size="sm">
             <Download className="mr-2 h-4 w-4" />
             <span className="hidden sm:inline">Export</span>
