@@ -254,11 +254,11 @@ export default function PoolTable({ pools }: PoolTableProps) {
                             className="dark:border-gray-700 dark:hover:bg-gray-800"
                           >
                             <a
-                              href={poolDetails.etherscanUrl}
+                              href={`https://defillama.com/yields/pool/${poolDetails.pool}`}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              View on Etherscan
+                              View on DefiLlama
                               <ExternalLink className="ml-2 h-4 w-4" />
                             </a>
                           </Button>
