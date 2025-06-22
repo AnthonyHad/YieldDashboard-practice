@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { getDefiLlamaPoolChart } from "@/lib/getDefiLlamaPoolChart";
-import PoolCharts from "./PoolCharts";
+import PoolCharts from "@/components/PoolCharts";
 import { formatCurrency } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
