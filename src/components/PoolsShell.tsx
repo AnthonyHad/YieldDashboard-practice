@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import SearchBar from "@/components/SearchBar";
-import PoolTable from "./PoolTable";
+import PoolTable from "@/components/PoolTable";
 import { FilterPopover } from "@/components/FilterPopover";
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
