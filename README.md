@@ -36,25 +36,25 @@ By focusing on clarity and performance, we can spot emerging high-yield opportun
 
 ## Architecture & File Structure
 
-/src
-├─ /app
-│ ├─ layout.tsx # Root layout: theme provider, global header
-│ └─ page.tsx # Home page: fetches pool list + spawns <PoolsShell>
-├─ /components
-│ ├─ DashboardHeader.tsx # Title, description, theme toggle, “Live Data” badge
-│ ├─ PoolsShell.tsx # Client wrapper: SearchBar + Filter/Export buttons + PoolTable
-│ ├─ SearchBar.tsx # Controlled search input with Lucide icon
-│ ├─ PoolTable.tsx # Client component: table of pools, expandable rows
-│ ├─ PoolDetail.tsx # Server component: pool metadata + deep dive
-│ ├─ PoolCharts.tsx # Client component: recharts dual-axis TVL & APY lines
-│ └─ ui/… # shadcn/ui primitives (Table, Tooltip, Button, etc.)
-├─ /lib
-│ ├─ getDefiLlamaPools.ts # Fetch list of all pools from DefiLlama
-│ ├─ getDefiLlamaPoolById.ts # Fetch details for one pool by ID
-│ ├─ getDefiLlamaPoolChart.ts # Fetch historical timeseries for a pool
-│ └─ utils.ts # Formatting helpers: currency, dates, abbreviations
-├─ globals.css # Tailwind imports + global resets
-└─ tsconfig.json # Path aliases, strict TypeScript settings
+/src  
+├─ **app**  
+│ ├─ `layout.tsx` # Root layout: theme provider, global header  
+│ └─ `page.tsx` # Home page: fetches pool list + spawns `<PoolsShell>`  
+├─ **components**  
+│ ├─ `DashboardHeader.tsx` # Title, description, theme toggle, “Live Data” badge  
+│ ├─ `PoolsShell.tsx` # Client wrapper: SearchBar + Filter/Export buttons + PoolTable  
+│ ├─ `SearchBar.tsx` # Controlled search input with Lucide icon  
+│ ├─ `PoolTable.tsx` # Client component: table of pools, expandable rows  
+│ ├─ `PoolDetail.tsx` # Server component: pool metadata + deep dive  
+│ ├─ `PoolCharts.tsx` # Client component: Recharts dual-axis TVL & APY lines  
+│ └─ **ui/** … # shadcn/ui primitives (Table, Tooltip, Button, etc.)  
+├─ **lib**  
+│ ├─ `getDefiLlamaPools.ts` # Fetch list of all pools from DefiLlama  
+│ ├─ `getDefiLlamaPoolById.ts` # Fetch details for one pool by ID  
+│ ├─ `getDefiLlamaPoolChart.ts` # Fetch historical time-series for a pool  
+│ └─ `utils.ts` # Formatting helpers: currency, dates, abbreviations  
+├─ `globals.css` # Tailwind imports + global resets  
+└─ `tsconfig.json` # Path aliases, strict TypeScript settings
 
 ## Key Components & Pages
 
