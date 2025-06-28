@@ -1,6 +1,6 @@
 DeFi Yield Dashboard
 
-#### Video Demo:
+#### Video Demo: https://youtu.be/oPaR3Q3GGzE
 
 #### Description
 
